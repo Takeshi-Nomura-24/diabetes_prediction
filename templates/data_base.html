@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<div class='container-fluid py-2 fade-in'>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <h2 class="fw-bold text-dark mb-0">
+            <i class="bi bi-database-check text-info"></i> 判定実績アーカイブ
+        </h2>
+        <div class="d-flex gap-2">
+            <a href="{% url 'predict:exportcsv' %}" class="btn btn-outline-success shadow-sm">
+                <i class="bi bi-file-earmark-spreadsheet"></i> CSV出力
+            </a>
+            <a class='btn btn-primary shadow-sm' href='{% url "predict:predict" %}'>
+                <i class="bi bi-plus-lg"></i> 新規判定
+            </a>
+        </div>
+    </div>
+
+    <div class="row mb-4 g-3">
+        <div class="col-6 col-md-3">
+            <div class="bg-white p-3 rounded shadow-sm border-start border-4 border-primary">
+                <div class="small text-muted">総判定件数</div>
+                <div class="h4 fw-bold mb-0">{{ dataset|length }}件</div>
+            </div>
+        </div>
+    </div>
+
+    <div class='card shadow-sm border-0'>
+        <div class='card-body p-0'>
+            <div class='table-responsive'>
+                <table class='table table-hover align-middle mb-0'>
+                    <thead class='bg-light text-secondary'>
+                        <tr class="text-center small text-uppercase tracking-wider">
+                            <th scope='col' class="py-3">ID</th>
+                            <th scope='col'>判定日時</th>
+                            <th scope='col'>判定</th>
+                            <th scope='col'>グルコース</th>
+                            <th scope='col'>BMI</th>
+                            <th scope='col'>年齢</th>
+                            <th scope='col' class="d-none d-xl-table-cell">血圧</th>
+                            <th scope='col' class="d-none d-xl-table-cell">インスリン</th>
+                            <th scope='col' class="d-none d-xl-table-cell">家系係数</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        {% for data in dataset %}
+                        <tr class="{% if data.Result == '陽性' %}bg-danger bg-opacity-10{% endif %}">
+                            <th scope='row' class="text-muted small">#{{ data.id }}</th>
+                            <td class="text-nowrap">{{ data.created_at|date:"m/d H:i" }}</td>
+                            <td>
+                                <span class="badge rounded-pill {% if data.Result == '陽性' %}bg-danger{% else %}bg-success{% endif %} px-3 py-2">
+                                    {{ data.Result }}
+                                </span>
+                            </td>
+                            <td class="fw-bold">{{ data.Glucose }}</td>
+                            <td>{{ data.BMI }}</td>
+                            <td>{{ data.Age }}</td>
+                            <td class="d-none d-xl-table-cell text-muted">{{ data.Blood_Pressure }}</td>
+                            <td class="d-none d-xl-table-cell text-muted">{{ data.Insulin }}</td>
+                            <td class="d-none d-xl-table-cell text-muted">{{ data.Diabetes_Pedigree_Function }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="11" class="py-5 text-muted">
+                                <i class="bi bi-inbox display-4 d-block mb-3 opacity-25"></i>
+                                判定データがまだありません。
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* テーブルの行にマウスを乗せた時の動き */
+    .table-hover tbody tr:hover {
+        background-color: rgba(13, 202, 240, 0.05) !important;
+        transition: 0.2s;
+    }
+    /* 列の幅を調整 */
+    th, td {
+        vertical-align: middle;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+    .bg-opacity-10 {
+        --bs-bg-opacity: 0.05;
+    }
+</style>
+{% endblock %}

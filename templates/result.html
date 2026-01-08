@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<div class="container py-2 fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-9 col-lg-7">
+            <div class="card shadow-lg border-0 overflow-hidden">
+                
+                <div class="card-header {% if result == '陽性' %}bg-danger{% else %}bg-success{% endif %} text-white text-center py-5 shadow-sm">
+                    <div class="mb-2">
+                        {% if result == '陽性' %}
+                            <i class="bi bi-exclamation-triangle-fill display-1"></i>
+                        {% else %}
+                            <i class="bi bi-check-circle-fill display-1"></i>
+                        {% endif %}
+                    </div>
+                    <h5 class="text-uppercase tracking-widest opacity-75 mb-1">AI解析結果</h5>
+                    <h1 class="display-3 fw-bold mb-0">判定：{{ result }}</h1>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    {% if probability %}
+                    <div class="mb-5">
+                        <div class="d-flex justify-content-between align-items-end mb-2">
+                            <span class="fw-bold text-dark">糖尿病罹患のリスクスコア</span>
+                            <span class="h4 fw-bold mb-0 {% if result == '陽性' %}text-danger{% else %}text-success{% endif %}">
+                                {{ probability }}
+                            </span>
+                        </div>
+                        <div class="progress shadow-sm" style="height: 25px; border-radius: 12px; background-color: #e9ecef;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated 
+                                {% if result == '陽性' %}bg-danger{% else %}bg-success{% endif %}" 
+                                 role="progressbar" 
+                                 style="width: {{ probability }};" 
+                                 aria-valuenow="{{ probability|cut:'%' }}" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                        <p class="mt-2 small text-muted text-center">
+                            <i class="bi bi-info-circle"></i> この数値はAIが算出させた統計的な確信度を示します。
+                        </p>
+                    </div>
+                    {% endif %}
+
+                    <div class="bg-light rounded-3 p-3 mb-5 border">
+                        <h6 class="fw-bold mb-3 border-bottom pb-2 text-secondary">
+                            <i class="bi bi-clipboard-data"></i> 入力された指標の確認
+                        </h6>
+                        <div class="row row-cols-2 g-2 small">
+                            <div class="col">グルコース: <strong>{{ data.Glucose }}</strong></div>
+                            <div class="col">BMI: <strong>{{ data.BMI }}</strong></div>
+                            <div class="col">血圧: <strong>{{ data.Blood_Pressure }}</strong></div>
+                            <div class="col">年齢: <strong>{{ data.Age }}</strong></div>
+                        </div>
+                    </div>
+
+                    <div class="card border-{% if result == '陽性' %}danger{% else %}success{% endif %} bg-opacity-10 mb-5">
+                        <div class="card-body">
+                            <h5 class="fw-bold d-flex align-items-center mb-3">
+                                <i class="bi bi-chat-left-dots-fill me-2 {% if result == '陽性' %}text-danger{% else %}text-success{% endif %}"></i>
+                                AIからのアドバイス
+                            </h5>
+                            <p class="text-dark lh-lg mb-0">
+                                {% if result == '陽性' %}
+                                    データに基づくと、現在は<strong>糖尿病の傾向が強く見られます</strong>。これは確定診断ではありませんが、早めに医療機関（内科や糖尿病専門外来）を受診し、詳細な検査を受けることを強く推奨します。
+                                {% else %}
+                                    判定は<strong>「陰性」</strong>となりました。現在のデータ範囲内ではリスクは低いと推測されます。しかし、生活習慣の変化により状況は変わります。引き続きバランスの良い食事と運動を継続し、定期的な健康診断を欠かさないでください。
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <a href="{% url 'predict:predict' %}" class="btn btn-primary btn-lg w-100 rounded-pill shadow hover-up">
+                                <i class="bi bi-arrow-repeat"></i> 再判定を行う
+                            </a>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="{% url 'predict:view_data' %}" class="btn btn-outline-dark btn-lg w-100 rounded-pill">
+                                <i class="bi bi-table"></i> 履歴を確認
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-white border-0 text-center pb-4">
+                    <p class="text-muted tiny mb-0">
+                        ※本システムはPima Indiansデータセットを利用したシミュレーションであり、医師の診断を代替するものではありません。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .tracking-widest { letter-spacing: 0.2rem; }
+    .tiny { font-size: 0.7rem; }
+    .hover-up:hover { transform: translateY(-2px); transition: 0.3s; }
+</style>
+{% endblock %}

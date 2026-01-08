@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<div class='container mt-2 mb-2'>
+    <div class='row g-4 justify-content-center'>
+        
+        <div class='col-lg-5 col-md-6'>
+            <div class='card shadow border-0 overflow-hidden'>
+                <div class='card-header bg-primary text-white py-3'>
+                    <h4 class='mb-0 d-flex align-items-center justify-content-center'>
+                        <i class="bi bi-pencil-square me-2"></i> パラメータ入力
+                    </h4>
+                </div>
+                <div class='card-body p-4'>
+                    <form method='post' id='predict-form' novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            {% for field in form %}
+                            <div class='col-12 mb-3'>
+                                <label for='{{ field.id_for_label }}' class='form-label fw-bold text-dark small d-flex align-items-center'>
+                                    {{ field.label }}
+                                    {% if field.field.required %}
+                                        <span class="badge bg-danger ms-2" style="font-size: 0.6rem;">必須</span>
+                                    {% endif %}
+                                </label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    <div class='invalid-feedback d-block'>
+                                        {{ field.errors.0 }}
+                                    </div>
+                                {% endif %}
+                                {% if field.help_text %}
+                                    <div class="form-text tiny text-muted">{{ field.help_text }}</div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class='d-grid gap-2 mt-4'>
+                            <button type='submit' id='submit-btn' class='btn btn-warning btn-lg fw-bold shadow-sm py-3 transition-all'>
+                                <span id="btn-text">🔍 判定を実行する</span>
+                                <span id="btn-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class='col-lg-7 col-md-6'>
+            <div class='card shadow-sm border-0'>
+                <div class='card-header bg-info text-white py-3'>
+                    <h4 class='mb-0 d-flex align-items-center justify-content-center'>
+                        <i class="bi bi-lightbulb me-2"></i> パラメータの解説
+                    </h4>
+                </div>
+                <div class='card-body p-4'>
+                    <p class="text-muted small mb-4">入力項目が判定にどのように影響するか、AIモデルの視点で解説します。</p>
+                    
+                    <div class='accordion accordion-flush rounded border' id='accordionExample'>
+                        
+                        <div class='accordion-item'>
+                            <h2 class='accordion-header'>
+                                <button class='accordion-button collapsed fw-bold' type='button' data-bs-toggle='collapse' data-bs-target='#collapseOne'>
+                                    <i class="bi bi-person-heart text-danger me-2"></i> 妊娠と糖尿病の関係
+                                </button>
+                            </h2>
+                            <div id='collapseOne' class='accordion-collapse collapse' data-bs-parent='#accordionExample'>
+                                <div class='accordion-body text-secondary lh-lg'>
+                                    妊娠中の糖代謝異常（妊娠糖尿病）は、将来的な糖尿病発症の強力なリスク因子です。過去の妊娠回数は、その累積的な影響をモデルが考慮するために使用されます。
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class='accordion-item'>
+                            <h2 class='accordion-header'>
+                                <button class='accordion-button collapsed fw-bold' type='button' data-bs-toggle='collapse' data-bs-target='#collapseTwo'>
+                                    <i class="bi bi-droplet-fill text-primary me-2"></i> グルコースと血糖値
+                                </button>
+                            </h2>
+                            <div id='collapseTwo' class='accordion-collapse collapse' data-bs-parent='#accordionExample'>
+                                <div class='accordion-body text-secondary lh-lg'>
+                                    血液中のブドウ糖濃度を指します。AIモデルにおいて最も重要度が高い項目の一つです。高い数値はインスリンの働きが不十分であることを示唆します。
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class='accordion-item'>
+                            <h2 class='accordion-header'>
+                                <button class='accordion-button collapsed fw-bold' type='button' data-bs-toggle='collapse' data-bs-target='#collapseThree'>
+                                    <i class="bi bi-heart-pulse-fill text-danger me-2"></i> 血圧と糖尿病の関係
+                                </button>
+                            </h2>
+                            <div id='collapseThree' class='accordion-collapse collapse' data-bs-parent='#accordionExample'>
+                                <div class='accordion-body text-secondary lh-lg'>
+                                    高血圧は糖尿病の合併症リスクを高めるだけでなく、インスリン抵抗性を悪化させる要因にもなります。血管の健康状態を示す重要な指標です。
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class='accordion-item'>
+                            <h2 class='accordion-header'>
+                                <button class='accordion-button collapsed fw-bold' type='button' data-bs-toggle='collapse' data-bs-target='#collapseSix'>
+                                    <i class="bi bi-speedometer2 text-success me-2"></i> BMIと糖尿病
+                                </button>
+                            </h2>
+                            <div id='collapseSix' class='accordion-collapse collapse' data-bs-parent='#accordionExample'>
+                                <div class='accordion-body text-secondary lh-lg'>
+                                    肥満度はインスリン抵抗性と密接に関係しています。BMIが25を超えるとリスクが顕著に高まりますが、AIは他の項目との組み合わせで総合的に判断します。
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="mt-4 p-3 bg-light rounded border-start border-4 border-info">
+                        <p class="small text-muted mb-0">
+                            <i class="bi bi-exclamation-triangle-fill text-warning"></i> 
+                            <strong>ご注意:</strong> この判定はPima Indians Diabetesデータセットに基づいた学習モデルによるものです。医学的診断の代わりにはなりません。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    document.getElementById('predict-form').onsubmit = function() {
+        const btn = document.getElementById('submit-btn');
+        const text = document.getElementById('btn-text');
+        const spinner = document.getElementById('btn-spinner');
+        
+        btn.classList.add('disabled');
+        text.innerText = 'AI解析中...';
+        spinner.classList.remove('d-none');
+    };
+</script>
+
+<style>
+    .transition-all { transition: all 0.3s ease; }
+    .btn-warning:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .accordion-button:not(.collapsed) { background-color: #f8f9fa; color: #0d6efd; }
+    .tiny { font-size: 0.75rem; }
+</style>
+{% endblock %}

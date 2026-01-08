@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<div class='container mt-4 mb-5'>
+    <div class='row g-3 justify-content-center'>
+        {% with images="1 2 3" %}
+        {% for i in images.split %}
+        <div class='col-6 col-md-4'>
+            <div class="img-container position-relative overflow-hidden rounded-3 shadow-sm border bg-white p-1">
+                <img src='{% static "pima_indian" %}{{ i }}.{% if i == "1" or i == "2" %}jpeg{% else %}jpg{% endif %}' 
+                     class='img-fluid transition-all w-100' alt=''>
+            </div>
+        </div>
+        {% endfor %}
+        {% endwith %}
+    </div>
+</div>
+
+<div class='container'>
+    <div class='card shadow-lg border-0 mb-5 overflow-hidden' style="border-radius: 20px;">
+        <div class="bg-dark p-2"></div>
+        
+        <div class='card-body p-4 p-md-5'>
+            <div class="text-center mb-5">
+                <h1 class='display-5 fw-bold text-dark mb-3'>
+                    <i class="bi bi-journal-richtext text-primary"></i> ピマ・インディアンと糖尿病
+                </h1>
+                <p class="text-muted small">学習用データセット：Pima Indians Diabetes Database の背景知識</p>
+                <div class="mx-auto" style="width: 60px; height: 4px; background: #0d6efd;"></div>
+            </div>
+
+            <section class="mb-5">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h3 class="h4 fw-bold text-primary mb-3">世界で最も糖尿病が多い部族</h3>
+                        <p class="lead text-secondary lh-lg">
+                            アメリカ・アリゾナ州に住むピマ・インディアンは、人口の50％以上が糖尿病であり、その有病率の高さから<strong>「現代病の縮図」</strong>として世界中の医学者から注目されています。
+                        </p>
+                        <p class="text-dark">
+                            20世紀初頭まで、彼らは伝統的な自給自足の生活を送っていました。しかし、居留地の環境変化に伴い、欧米型の高カロリー食と運動不足が急速に浸透。その結果、わずか数世代で肥満と糖尿病が爆発的に拡大しました。
+                        </p>
+                    </div>
+                    <div class="col-lg-4 text-center d-none d-lg-block">
+                        <i class="bi bi-geo-alt-fill text-danger display-1"></i>
+                    </div>
+                </div>
+            </section>
+            
+            <div class="row mb-5 g-0 rounded-4 overflow-hidden shadow-sm border">
+                <div class="col-md-6 bg-danger bg-opacity-10 p-4 border-end">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-danger text-white rounded-circle p-2 me-3"><i class="bi bi-arrow-up-right"></i></div>
+                        <h5 class="fw-bold text-danger mb-0">アリゾナ州（アメリカ）</h5>
+                    </div>
+                    <p class="small text-dark mb-0">
+                        西洋化された生活スタイル。高度肥満と2型糖尿病が深刻化しており、成人の多くが合併症のリスクにさらされています。
+                    </p>
+                </div>
+                <div class="col-md-6 bg-success bg-opacity-10 p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-success text-white rounded-circle p-2 me-3"><i class="bi bi-arrow-stable"></i></div>
+                        <h5 class="fw-bold text-success mb-0">メキシコ側（シエラ・マドレ）</h5>
+                    </div>
+                    <p class="small text-dark mb-0">
+                        伝統的な農耕生活を維持している同じ部族では、肥満や糖尿病はほとんど見られません。これは「生活環境」の影響の大きさを物語っています。
+                    </p>
+                </div>
+            </div>
+
+            <section class="mb-5 py-4 border-top">
+                <h3 class="h4 fw-bold text-primary mb-4">「倹約遺伝子」の宿命</h3>
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="p-4 bg-light rounded-3 border-start border-5 border-warning mb-4">
+                            <p class="mb-0 lh-lg">
+                                彼らはかつて飢餓環境を生き抜くため、<strong>「摂取エネルギーを効率よく脂肪に蓄える体質」</strong>を備えていました。これが飽食の時代において「肥満遺伝子」へと転じたのです。
+                            </p>
+                        </div>
+                        <p>
+                            研究で特定された<strong>「アドレナリンβ3受容体遺伝子多型」</strong>（通称：倹約遺伝子）は、実は<strong>日本人の約33%</strong>も保有しています。ピマ・インディアンの研究は、私たち日本人にとっても他人事ではありません。
+                        </p>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="card bg-info bg-opacity-10 border-0 p-3 h-100">
+                            <h6 class="fw-bold"><i class="bi bi-lightbulb-fill text-warning"></i> 医療・ケアへの視点</h6>
+                            <p class="small text-dark mb-0">
+                                肥満は単なる「自己管理不足」ではなく、数万年かけて培われた生存戦略の結果でもあります。個々の遺伝的背景に寄り添った、科学的かつ温かいアプローチが求められています。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class='text-center mt-5 pt-4 border-top'>
+                <h5 class="mb-4 fw-bold text-secondary">
+                    <i class="bi bi-play-circle-fill"></i> 学びを深めるためのビデオ資料
+                </h5>
+                <div class="ratio ratio-16x9 mx-auto shadow-lg rounded-3 overflow-hidden" style="max-width: 850px;">
+                    <iframe 
+                        src="https://www.youtube.com/embed/5eZjg6UIRkE?origin=http://127.0.0.1:8000&rel=0" 
+                        title="Water Rights and Diabetes in Arizona" 
+                        style="border: 0;"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        referrerpolicy="no-referrer-when-downgrade"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <p class="text-muted small mt-3">※アリゾナ州における水利権と糖尿病の歴史的な関係についての解説ビデオ</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .img-container img:hover { transform: scale(1.08); }
+    .transition-all { transition: all 0.4s ease; }
+    .lh-lg { line-height: 1.8; }
+</style>
+{% endblock %}

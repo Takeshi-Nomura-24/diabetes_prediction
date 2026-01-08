@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang='ja'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>{% block title %}糖尿病罹患判定システム | AI診断{% endblock %}</title>
+    
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+
+    {% load static %}
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.92);
+            --primary-accent: #0dcaf0; /* text-info の色 */
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('{% static "bg.jpeg" %}');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+
+        /* コンテンツエリア全体のオーバーレイ */
+        .main-wrapper {
+            flex: 1;
+            padding: 50px 0;
+            display: flex;
+            align-items: center; /* 中央寄せでバランスを整える */
+        }
+
+        /* 透過カードをさらに洗練 */
+        .content-card {
+            background: var(--glass-bg);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(5px); /* 背景を少しぼかして高級感を出す */
+        }
+
+        /* ナビゲーションのホバーエフェクト */
+        .nav-link {
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover {
+            color: var(--primary-accent) !important;
+            border-bottom: 2px solid var(--primary-accent);
+        }
+
+        /* フッター */
+        footer {
+            background: rgba(33, 37, 41, 0.95) !important;
+            backdrop-filter: blur(10px);
+        }
+
+        /* アニメーション */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class='navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top'>
+        <div class='container'>  
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'predict:home' %}">
+                <img src='{% static "power_grid.png" %}' height='35' class="me-2 rounded shadow-sm">
+                <span class="fw-bold tracking-wider">Diabetes<span class="text-info">AI</span></span>
+            </a>
+            
+            <button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent'>
+                <span class='navbar-toggler-icon'></span>
+            </button>
+
+            <div class='collapse navbar-collapse' id='navbarSupportedContent'>
+                <ul class='navbar-nav ms-auto mb-2 mb-lg-0'>
+                    <li class="nav-item"><a class='nav-link' href='{% url "predict:home" %}'><i class="bi bi-house-door"></i> HOME</a></li>
+                    <li class="nav-item"><a class='nav-link fw-bold text-info' href='{% url "predict:predict" %}'><i class="bi bi-activity"></i> 罹患判定</a></li>
+                    <li class="nav-item"><a class='nav-link' href='{% url "predict:view_data" %}'><i class="bi bi-list-check"></i> 判定実績</a></li>
+                    <li class="nav-item"><a class='nav-link' href='{% url "predict:exportcsv" %}'><i class="bi bi-download"></i> CSV</a></li>
+                    <li class="nav-item"><a class='nav-link' href='{% url "predict:view_pima_indian" %}'><i class="bi bi-info-circle"></i> ピマ・インディアンと糖尿病</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-wrapper">
+        <div class="container fade-in">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="content-card">
+                        {% block main %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <footer class='py-3 text-white border-top border-secondary'>
+        <div class='container text-center'>  
+            <p class='mb-0 small opacity-75'>
+                &copy; 2022-2026 Power Grid | 糖尿病罹患判定システム v2.0
+            </p>
+        </div>
+    </footer>
+
+    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js'></script>
+</body>
+</html>
