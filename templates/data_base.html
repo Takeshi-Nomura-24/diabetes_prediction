@@ -1,94 +1,65 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block main %}
-<div class='container-fluid py-2 fade-in'>
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
-        <h2 class="fw-bold text-dark mb-0">
-            <i class="bi bi-database-check text-info"></i> 判定実績アーカイブ
+<div class="container mt-4 mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-dark">
+            <i class="bi bi-database-fill-gear text-primary"></i> 診断履歴データベース
         </h2>
-        <div class="d-flex gap-2">
-            <a href="{% url 'predict:exportcsv' %}" class="btn btn-outline-success shadow-sm">
-                <i class="bi bi-file-earmark-spreadsheet"></i> CSV出力
-            </a>
-            <a class='btn btn-primary shadow-sm' href='{% url "predict:predict" %}'>
-                <i class="bi bi-plus-lg"></i> 新規判定
-            </a>
-        </div>
+        <span class="badge bg-secondary">全 {{ diabetes_data|length }} 件</span>
     </div>
 
-    <div class="row mb-4 g-3">
-        <div class="col-6 col-md-3">
-            <div class="bg-white p-3 rounded shadow-sm border-start border-4 border-primary">
-                <div class="small text-muted">総判定件数</div>
-                <div class="h4 fw-bold mb-0">{{ dataset|length }}件</div>
-            </div>
-        </div>
-    </div>
-
-    <div class='card shadow-sm border-0'>
-        <div class='card-body p-0'>
-            <div class='table-responsive'>
-                <table class='table table-hover align-middle mb-0'>
-                    <thead class='bg-light text-secondary'>
-                        <tr class="text-center small text-uppercase tracking-wider">
-                            <th scope='col' class="py-3">ID</th>
-                            <th scope='col'>判定日時</th>
-                            <th scope='col'>判定</th>
-                            <th scope='col'>グルコース</th>
-                            <th scope='col'>BMI</th>
-                            <th scope='col'>年齢</th>
-                            <th scope='col' class="d-none d-xl-table-cell">血圧</th>
-                            <th scope='col' class="d-none d-xl-table-cell">インスリン</th>
-                            <th scope='col' class="d-none d-xl-table-cell">家系係数</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-center">
-                        {% for data in dataset %}
-                        <tr class="{% if data.Result == '陽性' %}bg-danger bg-opacity-10{% endif %}">
-                            <th scope='row' class="text-muted small">#{{ data.id }}</th>
-                            <td class="text-nowrap">{{ data.created_at|date:"m/d H:i" }}</td>
-                            <td>
-                                <span class="badge rounded-pill {% if data.Result == '陽性' %}bg-danger{% else %}bg-success{% endif %} px-3 py-2">
-                                    {{ data.Result }}
-                                </span>
-                            </td>
-                            <td class="fw-bold">{{ data.Glucose }}</td>
-                            <td>{{ data.BMI }}</td>
-                            <td>{{ data.Age }}</td>
-                            <td class="d-none d-xl-table-cell text-muted">{{ data.Blood_Pressure }}</td>
-                            <td class="d-none d-xl-table-cell text-muted">{{ data.Insulin }}</td>
-                            <td class="d-none d-xl-table-cell text-muted">{{ data.Diabetes_Pedigree_Function }}</td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="11" class="py-5 text-muted">
-                                <i class="bi bi-inbox display-4 d-block mb-3 opacity-25"></i>
-                                判定データがまだありません。
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+    <div class="card shadow-sm border-0 rounded-3 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="px-3 text-nowrap">ID</th>
+                        <th class="text-nowrap">判定日時</th>
+                        <th class="text-nowrap text-center">判定結果</th>
+                        <th class="text-nowrap">妊娠回数</th>
+                        <th class="text-nowrap">血糖値</th>
+                        <th class="text-nowrap">血圧</th>
+                        <th class="text-nowrap">皮下脂肪</th>
+                        <th class="text-nowrap">インスリン</th>
+                        <th class="text-nowrap">BMI</th>
+                        <th class="text-nowrap">家系指数</th>
+                        <th class="text-nowrap">年齢</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in diabetes_data %}
+                    <tr>
+                        <td class="px-3 fw-bold text-primary">#{{ data.id }}</td>
+                        <td class="small text-muted">{{ data.created_at|date:"Y/m/d H:i" }}</td>
+                        <td class="text-center">
+                            {# モデルのフィールド名 Result に合わせ、文字列 "Positive" 等が含まれているか判定 #}
+                            {% if "陽性" in data.Result or "Positive" in data.Result or data.Result == "1" %}
+                            <span class="badge rounded-pill bg-danger shadow-sm px-3">陽性</span>
+                            {% else %}
+                            <span class="badge rounded-pill bg-success shadow-sm px-3">陰性</span>
+                            {% endif %}
+                        </td>
+                        {# models.py の大文字フィールド名に完全に一致させています #}
+                        <td>{{ data.Pregnancies }}</td>
+                        <td>{{ data.Glucose }}</td>
+                        <td>{{ data.Blood_Pressure }}</td>
+                        <td>{{ data.Skin_Thickness }}</td>
+                        <td>{{ data.Insulin }}</td>
+                        <td>{{ data.BMI }}</td>
+                        <td>{{ data.Diabetes_Pedigree_Function }}</td>
+                        <td>{{ data.Age }}歳</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="11" class="text-center py-5 text-muted">
+                            <i class="bi bi-info-circle me-2"></i> データベースに登録されている履歴がありません。
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-
-<style>
-    /* テーブルの行にマウスを乗せた時の動き */
-    .table-hover tbody tr:hover {
-        background-color: rgba(13, 202, 240, 0.05) !important;
-        transition: 0.2s;
-    }
-    /* 列の幅を調整 */
-    th, td {
-        vertical-align: middle;
-        padding-top: 1rem !important;
-        padding-bottom: 1rem !important;
-    }
-    .bg-opacity-10 {
-        --bs-bg-opacity: 0.05;
-    }
-</style>
 {% endblock %}

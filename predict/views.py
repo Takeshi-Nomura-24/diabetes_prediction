@@ -79,7 +79,15 @@ def predict(request):
 def view_data(request):
     """ 履歴一覧を表示（ページネーションなどの拡張も可能） """
     predictions = DiabetesPrediction.objects.all().order_by('-created_at')
-    return render(request, "data_base.html", {"dataset": predictions})
+    # return render(request, "data_base.html", {"dataset": predictions})
+
+# def data_base(request):
+#     # すべての履歴を新しい順に取得
+#     history = DiabetesPrediction.objects.all().order_by('-created_at')
+    
+    # 第3引数の辞書のキー（'diabetes_data'）がHTML側の変数名になります
+    return render(request, 'data_base.html', {'diabetes_data': predictions})
+
 
 def exportcsv(request):
     """ 判定履歴をCSVとしてダウンロード（Excel対応） """

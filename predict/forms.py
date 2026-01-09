@@ -10,14 +10,14 @@ class DiabetesPredictionForm(forms.ModelForm):
         ]
         
         labels = {
-            'Pregnancies': '妊娠回数',
-            'Glucose': 'グルコース (空腹時血糖)',
-            'Blood_Pressure': '血圧 (拡張期血圧)',
-            'Skin_Thickness': '皮膚の厚み (上腕三頭筋)',
-            'Insulin': 'インシュリン (2時間後の血清)',
-            'BMI': 'BMI (肥満度)',
-            'Diabetes_Pedigree_Function': '家系係数',
-            'Age': '年齢',
+            'Pregnancies': '妊娠回数(例：1)',
+            'Glucose': 'グルコース (空腹時血糖 例：89)',
+            'Blood_Pressure': '血圧 (拡張期血圧 例：66)',
+            'Skin_Thickness': '皮膚の厚み (上腕三頭筋 例：23)',
+            'Insulin': 'インシュリン (2時間後の血清 例：94)',
+            'BMI': 'BMI (肥満度 例：28.1)',
+            'Diabetes_Pedigree_Function': '家系係数(例：0.167)',
+            'Age': '年齢(例：21)',
         }
 
         # ヘルプテキストを追加してユーザーをガイド
