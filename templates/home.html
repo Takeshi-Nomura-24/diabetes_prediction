@@ -2,125 +2,125 @@
 {% load static %}
 
 {% block main %}
-<div class='container mt-2'>
-    <div class='text-center p-5 mb-5 rounded-4 shadow-lg position-relative overflow-hidden' 
+<div class='container mt-2 mt-md-4'>
+    <div class='text-center p-4 p-md-5 mb-4 mb-md-5 rounded-4 shadow-lg position-relative overflow-hidden' 
          style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); border-top: 6px solid #0dcaf0;">
         
-        <h1 class='display-4 fw-bold text-dark mb-3'>
+        <h1 class='display-5 display-md-4 fw-bold text-dark mb-3'>
             Diabetes<span class="text-info">AI</span> 診断システム
         </h1>
-        <p class='lead mt-3 text-secondary mx-auto' style="max-width: 700px;">
-            これまでの臨床データセットから学習した高度なAIモデルが、<br>
-            あなたの健康診断結果に基づき将来的な糖尿病リスクを客観的に判定します。
+        <p class='lead mt-3 text-secondary mx-auto mb-4' style="max-width: 700px; font-size: 1rem; line-height: 1.6;">
+            臨床データから学習した高度なAIが、<br class="d-none d-md-block">
+            健康診断結果に基づき糖尿病リスクを客観的に判定します。
         </p>
         
-        <div class='mt-5 d-grid gap-3 d-sm-flex justify-content-sm-center'>
-            <a class='btn btn-info btn-lg px-5 py-3 fw-bold text-white shadow hover-up' href='{% url "predict:predict" %}'>
+        <div class='mt-2 mt-md-4 d-grid gap-3 d-sm-flex justify-content-sm-center'>
+            <a class='btn btn-info btn-lg px-5 py-3 fw-bold text-white shadow hover-up rounded-pill' href='{% url "predict:predict" %}'>
                 <i class="bi bi-activity"></i> 判定を開始する
             </a>
-            {% comment %} <a class='btn btn-outline-secondary btn-lg px-5 py-3 fw-bold shadow-sm' href='{% url "predict:view_pima_indian" %}'>
-                <i class="bi bi-book"></i> システム解説
-            </a> {% endcomment %}
         </div>
     </div>
 </div>
 
 <div class='container mb-5'>
-    <div class="d-flex align-items-center justify-content-center mb-4">
+    <div class="d-flex align-items-center justify-content-center mb-4 text-center">
         <hr class="flex-grow-1 d-none d-md-block">
-        <h3 class='px-4 fw-bold text-dark'><i class="bi bi-graph-up-arrow text-info"></i> 分析に使用する8つの指標</h3>
+        <h3 class='px-3 fw-bold text-dark h5 h-md-3'>
+            <i class="bi bi-graph-up-arrow text-info"></i> 分析に使用する8つの指標
+        </h3>
         <hr class="flex-grow-1 d-none d-md-block">
     </div>
 
-    <div class='row row-cols-2 row-cols-md-4 g-4 text-center'>
+    <div class='row row-cols-2 row-cols-md-4 g-3 g-md-4 text-center'>
+        {% comment %} 各指標カードの共通パーツ化 {% endcomment %}
         <div class='col'>
-            <div class="card h-100 border-0 shadow-sm hover-card transition-all">
-                <div class="card-img-top bg-light p-4 d-flex justify-content-center align-items-center" style="height: 120px;">
-                    <i class="bi bi-person-plus text-info display-4"></i>
+            <div class="card h-100 border-0 shadow-sm hover-card transition-all rounded-3">
+                <div class="card-img-top bg-light p-3 d-flex justify-content-center align-items-center custom-card-icon">
+                    <i class="bi bi-person-plus text-info display-6 display-md-4"></i>
                 </div>
-                <div class="card-body py-3"><p class="card-text fw-bold mb-0 text-dark">妊娠回数</p></div>
+                <div class="card-body py-2 py-md-3"><p class="card-text fw-bold mb-0 text-dark small-mobile">妊娠回数</p></div>
             </div>
         </div>
         <div class='col'>
-            <div class="card h-100 border-0 shadow-sm hover-card transition-all">
-                <div class="card-img-top bg-light p-4 d-flex justify-content-center align-items-center" style="height: 120px;">
-                    <i class="bi bi-droplet-half text-info display-4"></i>
+            <div class="card h-100 border-0 shadow-sm hover-card transition-all rounded-3">
+                <div class="card-img-top bg-light p-3 d-flex justify-content-center align-items-center custom-card-icon">
+                    <i class="bi bi-droplet-half text-info display-6 display-md-4"></i>
                 </div>
-                <div class="card-body py-3"><p class="card-text fw-bold mb-0 text-dark">グルコース</p></div>
+                <div class="card-body py-2 py-md-3"><p class="card-text fw-bold mb-0 text-dark small-mobile">グルコース</p></div>
             </div>
         </div>
         <div class='col'>
-            <div class="card h-100 border-0 shadow-sm hover-card transition-all">
-                <div class="card-img-top bg-light p-4 d-flex justify-content-center align-items-center" style="height: 120px;">
-                    <i class="bi bi-heart-pulse text-info display-4"></i>
+            <div class="card h-100 border-0 shadow-sm hover-card transition-all rounded-3">
+                <div class="card-img-top bg-light p-3 d-flex justify-content-center align-items-center custom-card-icon">
+                    <i class="bi bi-heart-pulse text-info display-6 display-md-4"></i>
                 </div>
-                <div class="card-body py-3"><p class="card-text fw-bold mb-0 text-dark">血圧</p></div>
+                <div class="card-body py-2 py-md-3"><p class="card-text fw-bold mb-0 text-dark small-mobile">血圧</p></div>
             </div>
         </div>
         <div class='col'>
-            <div class="card h-100 border-0 shadow-sm hover-card transition-all">
-                <div class="card-img-top bg-light p-4 d-flex justify-content-center align-items-center" style="height: 120px;">
-                    <i class="bi bi-layers text-info display-4"></i>
+            <div class="card h-100 border-0 shadow-sm hover-card transition-all rounded-3">
+                <div class="card-img-top bg-light p-3 d-flex justify-content-center align-items-center custom-card-icon">
+                    <i class="bi bi-layers text-info display-6 display-md-4"></i>
                 </div>
-                <div class="card-body py-3"><p class="card-text fw-bold mb-0 text-dark">皮膚の厚み</p></div>
+                <div class="card-body py-2 py-md-3"><p class="card-text fw-bold mb-0 text-dark small-mobile">皮膚の厚み</p></div>
             </div>
         </div>
         <div class='col'>
-            <div class="card h-100 border-0 shadow-sm hover-card transition-all">
-                <div class="card-img-top bg-light p-4 d-flex justify-content-center align-items-center" style="height: 120px;">
-                    <i class="bi bi-capsule text-info display-4"></i>
+            <div class="card h-100 border-0 shadow-sm hover-card transition-all rounded-3">
+                <div class="card-img-top bg-light p-3 d-flex justify-content-center align-items-center custom-card-icon">
+                    <i class="bi bi-capsule text-info display-6 display-md-4"></i>
                 </div>
-                <div class="card-body py-3"><p class="card-text fw-bold mb-0 text-dark">インシュリン</p></div>
+                <div class="card-body py-2 py-md-3"><p class="card-text fw-bold mb-0 text-dark small-mobile">インシュリン</p></div>
             </div>
         </div>
         <div class='col'>
-            <div class="card h-100 border-0 shadow-sm hover-card transition-all">
-                <div class="card-img-top bg-light p-4 d-flex justify-content-center align-items-center" style="height: 120px;">
-                    <i class="bi bi-speedometer2 text-info display-4"></i>
+            <div class="card h-100 border-0 shadow-sm hover-card transition-all rounded-3">
+                <div class="card-img-top bg-light p-3 d-flex justify-content-center align-items-center custom-card-icon">
+                    <i class="bi bi-speedometer2 text-info display-6 display-md-4"></i>
                 </div>
-                <div class="card-body py-3"><p class="card-text fw-bold mb-0 text-dark">BMI</p></div>
+                <div class="card-body py-2 py-md-3"><p class="card-text fw-bold mb-0 text-dark small-mobile">BMI</p></div>
             </div>
         </div>
         <div class='col'>
-            <div class="card h-100 border-0 shadow-sm hover-card transition-all">
-                <div class="card-img-top bg-light p-4 d-flex justify-content-center align-items-center" style="height: 120px;">
-                    <i class="bi bi-diagram-3 text-info display-4"></i>
+            <div class="card h-100 border-0 shadow-sm hover-card transition-all rounded-3">
+                <div class="card-img-top bg-light p-3 d-flex justify-content-center align-items-center custom-card-icon">
+                    <i class="bi bi-diagram-3 text-info display-6 display-md-4"></i>
                 </div>
-                <div class="card-body py-3"><p class="card-text fw-bold mb-0 text-dark">家系係数</p></div>
+                <div class="card-body py-2 py-md-3"><p class="card-text fw-bold mb-0 text-dark small-mobile">家系係数</p></div>
             </div>
         </div>
         <div class='col'>
-            <div class="card h-100 border-0 shadow-sm hover-card transition-all">
-                <div class="card-img-top bg-light p-4 d-flex justify-content-center align-items-center" style="height: 120px;">
-                    <i class="bi bi-calendar-event text-info display-4"></i>
+            <div class="card h-100 border-0 shadow-sm hover-card transition-all rounded-3">
+                <div class="card-img-top bg-light p-3 d-flex justify-content-center align-items-center custom-card-icon">
+                    <i class="bi bi-calendar-event text-info display-6 display-md-4"></i>
                 </div>
-                <div class="card-body py-3"><p class="card-text fw-bold mb-0 text-dark">年齢</p></div>
+                <div class="card-body py-2 py-md-3"><p class="card-text fw-bold mb-0 text-dark small-mobile">年齢</p></div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container pb-5">
-    <div class="row g-4 text-center">
-        <div class="col-md-4">
-            <div class="p-4 bg-white rounded-3 shadow-sm h-100">
-                <div class="mb-3"><span class="badge rounded-circle bg-info p-3 fs-4">1</span></div>
+<div class="container pb-5 px-3">
+    <div class="row g-3 g-md-4 text-center">
+        <div class="col-12 col-md-4">
+            <div class="p-3 p-md-4 bg-white rounded-4 shadow-sm h-100 border border-light">
+                <div class="mb-3"><span class="badge rounded-circle bg-info p-3 fs-5">1</span></div>
                 <h5 class="fw-bold">パラメータ入力</h5>
-                <p class="text-muted small">BMIや血糖値など、お手元の健康診断結果を入力します。</p>
+                <p class="text-muted small mb-0">BMIや血糖値など、お手元の健康診断結果を入力します。</p>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="p-4 bg-white rounded-3 shadow-sm h-100">
-                <div class="mb-3"><span class="badge rounded-circle bg-info p-3 fs-4">2</span></div>
+        <div class="col-12 col-md-4">
+            <div class="p-3 p-md-4 bg-white rounded-4 shadow-sm h-100 border border-light">
+                <div class="mb-3"><span class="badge rounded-circle bg-info p-3 fs-5">2</span></div>
                 <h5 class="fw-bold">AI解析実行</h5>
-                <p class="text-muted small">学習済みランダムフォレストモデルが数値を瞬時に解析します。</p>
+                <p class="text-muted small mb-0">学習済みモデルが数値を瞬時に多角的に解析します。</p>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="p-4 bg-white rounded-3 shadow-sm h-100">
-                <div class="mb-3"><span class="badge rounded-circle bg-info p-3 fs-4">3</span></div>
+        <div class="col-12 col-md-4">
+            <div class="p-3 p-md-4 bg-white rounded-4 shadow-sm h-100 border border-light">
+                <div class="mb-3"><span class="badge rounded-circle bg-info p-3 fs-5">3</span></div>
                 <h5 class="fw-bold">リスク確認</h5>
-                <p class="text-muted small">陽性・陰性の判定と、その確率（確信度）を表示します。</p>
+                <p class="text-muted small mb-0">判定結果と確信度をグラフと共に分かりやすく表示します。</p>
             </div>
         </div>
     </div>
@@ -131,10 +131,20 @@
     .hover-up:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; }
     
     .hover-card:hover {
-        transform: scale(1.05);
+        transform: scale(1.02);
         background-color: #f0faff;
         z-index: 10;
     }
     .transition-all { transition: all 0.3s cubic-bezier(.25,.8,.25,1); }
+
+    /* モバイル向けの高さ・サイズ微調整 */
+    .custom-card-icon { height: 80px; }
+    @media (min-width: 768px) {
+        .custom-card-icon { height: 120px; }
+    }
+    @media (max-width: 576px) {
+        .small-mobile { font-size: 0.85rem; }
+        .display-6 { font-size: 2rem; }
+    }
 </style>
 {% endblock %}
